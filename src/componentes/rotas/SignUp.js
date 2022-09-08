@@ -12,7 +12,7 @@ export default function SignUp() {
     const [senha, setSenha] = useState("");
     const [email, setEmail] = useState("");
     const [confirmarSenha, setConfirmarSenha] = useState("");
-    const [desabilitado, setDesabilitado] = useState(true);
+    const [desabilitado, setDesabilitado] = useState(false);
 
     const navigate = useNavigate()
 
@@ -58,7 +58,7 @@ export default function SignUp() {
                 disabled={desabilitado}
                 required
             />
-                        <InputForm 
+            <InputForm 
                 placeholder="Email"
                 type="email"
                 value={email}
