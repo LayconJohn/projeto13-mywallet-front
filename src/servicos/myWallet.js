@@ -12,4 +12,34 @@ function signInUser(body) {
     return promisse;
 }
 
-export {signUpUser, signInUser};
+function getRegistros(token) {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    const promisse = axios.get(`${URL_BASE}/registros`, config);
+    return promisse;
+}
+
+function registrarEntrada(body, token) {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    };
+    const promisse = axios.post(`${URL_BASE}/entrada`, body, config);
+    return promisse;
+}
+
+function registrarSaida(body, token) {
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    const promisse = axios.post(`${URL_BASE}/saida`, body, config);
+    return promisse;
+}
+
+export {signUpUser, signInUser, getRegistros, registrarEntrada, registrarSaida};

@@ -28,8 +28,11 @@ export default function SignIn() {
             senha
         }
         signInUser(body)
-            .then( (res) => {
-                setUser(res.data);
+            .then( ({data}) => {
+                setUser({
+                    token: data.token,
+                    nome: data.nome  
+                });
                 navigate("/registros")
             })
             .catch( (err) => {
