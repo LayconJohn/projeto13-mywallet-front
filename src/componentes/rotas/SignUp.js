@@ -22,6 +22,8 @@ export default function SignUp() {
 
         if (senha !== confirmarSenha) {
             alert("Os campos de senhas devem ser iguais!")
+            setSenha("");
+            setConfirmarSenha("");
             return;
         }
 
