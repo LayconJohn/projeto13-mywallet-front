@@ -17,6 +17,7 @@ export default function Registros() {
     const [registros, setRegistros] = useState([]);
     const [nome, setNome] = useState("");
     const [soma, setSoma] = useState(0);
+    const [limiteDeTexto, setLimiteDeTexto] = useState(false);
 
     //hooks
     const {user} = useContext(Usercontext);
@@ -34,7 +35,15 @@ export default function Registros() {
         })
         .catch((err) => {
             console.log(err.message);
+            alert("Tempo de login finalzado. Faça o login novamente")
+            navigate("/");
         })
+
+        if (registros.length > 10) {
+            setLimiteDeTexto(true);
+        } else {
+            setLimiteDeTexto(false);
+        }
     }, [])
 
     function pegarSomaValores(arr) {
@@ -55,27 +64,27 @@ export default function Registros() {
             <GlobalStyle />
             <Topo> 
                 <Titulo>Olá, {nome}</Titulo>
-                <IconeLogOut> <MdLogout /> </IconeLogOut>
+                <IconeLogOut onClick={() => navigate("/")}> <MdLogout /> </IconeLogOut>
             </Topo>
             <AreaRegistros>
-                {registros.length > 0 ? 
-                registros.map((registro, index) => {
-                    return <Registro 
-                    key={index}
-                        data={registro.data}
-                        descricao={registro.descricao}
-                        valor={registro.valor}
-                        tipo={registro.tipo}
-                    />
-                }) 
-                : 
-                <AvisoSemRegistro>"Não há registros de entrada ou saída"</AvisoSemRegistro>
-                }
-                <AreaSaldo saldo={soma}>
-                    <p><strong>Saldo</strong></p>
-                    <span >R$ {soma.toFixed(2)}</span>
-                </AreaSaldo>
+                    {registros.length > 0 ? 
+                    registros.map((registro, index) => {
+                        return <Registro 
+                        key={index}
+                            data={registro.data}
+                            descricao={registro.descricao}
+                            valor={registro.valor}
+                            tipo={registro.tipo}
+                        />
+                    }) 
+                    : 
+                    <AvisoSemRegistro>"Não há registros de entrada ou saída"</AvisoSemRegistro>
+                    } 
             </AreaRegistros>
+            <AreaSaldo saldo={soma} noLimite={limiteDeTexto}>
+                <p><strong>Saldo</strong></p>
+                <span >R$ {soma.toFixed(2)}</span>
+            </AreaSaldo>    
             <AreaCadastros>
                 <BotaoCadastro onClick={ () => navigate("/entrada")}>
                     <IconeCadastro> <AiOutlinePlusCircle /> </IconeCadastro>
@@ -125,6 +134,8 @@ const AreaRegistros = styled.div`
     padding: 23px 11px 20px 12px;
     box-sizing: border-box;
     position: relative;
+    overflow-y: scroll;
+
 `;
 
 const AreaCadastros = styled.div`
@@ -135,14 +146,19 @@ const AreaCadastros = styled.div`
 `;
 
 const AreaSaldo = styled.div`
-    position: absolute;
-    left: 15px;
-    bottom: 10px;
-    right: 15px;
+    position: fixed;
+    width: 326px;
+    left: 25px;
+    bottom: 240px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: ${props => props.saldo > 0 ? "#03AC00" : "#C70000"};
+    z-index: 1;
+    box-sizing: border-box;
+    background-color: ${props => props.noLimite ? "rgba(0, 0, 0, 0.5)" : "rgba(255, 255, 255, 0.2)"};
+    padding: 0px 10px;  
+
 
     p {
         font-size: 17px;
